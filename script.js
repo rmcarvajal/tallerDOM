@@ -2,11 +2,12 @@ const taskInput = document.getElementById("task-input")
 const button = document.getElementById("add-task-btn")
 const list = document.getElementById("task-list")
 
-function createTaskElement() {
 
+function createTaskElement() {
+const taskValue = taskInput.value
     
     const Litem = document.createElement ("li")
-    Litem.textContent = taskInput
+    Litem.textContent = taskValue
     Litem.classList.add("task-item")
 
     const delButton = document.createElement ("button")
@@ -15,11 +16,13 @@ function createTaskElement() {
 
 
     delButton.addEventListener("click" , () => {
-        taskInput.removeChild(Litem)
+        list.removeChild(Litem)
     })
     Litem.appendChild(delButton)
     
     list.appendChild(Litem)
+
+    saveTasks()
 }
 
 
@@ -30,5 +33,23 @@ button.onclick = () => {
     }
     else{
         createTaskElement()
+        taskInput.value = ""
     }
 }
+
+function saveTasks() {
+    const taskItems = document.querySelectorAll(".task-item")
+
+    const tasks = []
+    
+    tasks.push(taskItems)
+
+    localStorage.setItem("taskLog", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+    const savedTasks = JSON.parse(localStorage.getItem("taskLog"));
+    console.log(savedTasks)
+}
+
+loadTasks()
